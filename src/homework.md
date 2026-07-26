@@ -1,4 +1,5 @@
 Homework
+
 1. Create a Git repository.
 2. Initialize the repository.
 3. Understand the purpose of node_modules , package.json , and package-lock.json .
