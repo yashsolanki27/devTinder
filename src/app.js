@@ -90,9 +90,9 @@ const app = express();
 // });
 
 
-
-app.get("/user", (req,res)=>{
-    console.log(req.query);
+//dynamic route
+app.get("/user/:userid/:name/:password", (req,res)=>{
+    console.log(req.params);
     res.send({first_name : "Yash", last_name: "Solanki"});
 });
 
