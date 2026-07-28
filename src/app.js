@@ -1,27 +1,37 @@
-const express = require('express');
+const dns = require("dns");
 
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
+
+const express = require("express");
+const connectDB = require("./config/database");
 const app = express();
+const User = require("./models/user");
 
-app.get("/getUserData" , (req, res)=>{
-    try{
-     //logic of db call and get user data
-    throw new error("asdh");
-    res.send(" User data sent");
-    }
-    catch (err){
-    res.status(500).send("Something went wrong never try again ever and never say ever");
-    }
+app.post("/signup", async (req, res) => {
+  //creating a new instance of my User model
+  const user = new User({
+    firstName: "Yash",
+    lastName: "Solanki",
+    email: "Yashsol@gmail.com",
+    password: "Yash@123",
+  });
 
-
+  try {
+    await user.save();
+    res.send("User Created Successfully..!!");
+  } catch (err) {
+    res.Status(400).send("Error saving in User: " + err.message);
+  }
 });
 
-app.use("/" , (err, req, res, next)=>{
-     if(err){
-        //log your user
-     res.status(500).send("Something went wrong never try again");
-     }
-});
-
-app.listen(7771,()=>{
-        console.log("Server sucessfully listeining on port 7771");
+connectDB()
+  .then(() => {
+    console.log("Database connection established...");
+    app.listen(7771, () => {
+      console.log("Server sucessfully listeining on port 7771");
     });
+  })
+  .catch((err) => {
+    console.error("Database cannot be connected");
+    console.error(err.message);
+  });
